@@ -1,6 +1,6 @@
 <?php
 /**
- * Read Time plugin for Craft CMS 4.x
+ * Read Time plugin for Craft CMS 5.x
  *
  * Calculate the estimated read time for content.
  *
@@ -12,7 +12,6 @@ namespace jalendport\readtime\twigextensions;
 
 use Craft;
 use craft\elements\Entry;
-use craft\elements\MatrixBlock;
 use craft\errors\InvalidFieldException;
 use craft\fields\Matrix;
 use craft\helpers\StringHelper;
@@ -59,62 +58,66 @@ class ReadTimeTwigExtension extends AbstractExtension
         if ($element instanceof Entry) {
             // Provided value is an entry
 
-            foreach ($element->getFieldLayout()->getCustomFields() as $field) {
+            foreach ($element->getFieldLayout()?->getCustomFields() as $field) {
+
                 try {
                     // If field is a matrix then loop through fields in block
                     if ($field instanceof Matrix) {
                         foreach($element->getFieldValue($field->handle)->all() as $block) {
-                            $blockFields = $block->getFieldLayout()->getFields();
+                            $blockFields = $block->getFieldLayout()->getCustomFields();
 
                             foreach ($blockFields as $blockField) {
                                 $value = $block->getFieldValue($blockField->handle);
                                 $seconds = $this->valToSeconds($value);
-                                $totalSeconds = $totalSeconds + $seconds;
+                                $totalSeconds += $seconds;
                             }
                         }
-                    } elseif($field instanceof SuperTableField) {
+                    }
+                    elseif ($field instanceof SuperTableField) {
                         foreach($element->getFieldValue($field->handle)->all() as $block) {
-                            $blockFields = $block->getFieldLayout()->getFields();
+                            $blockFields = $block->getFieldLayout()->getCustomFields();
 
                             foreach ($blockFields as $blockField) {
                                 if ($blockField instanceof Matrix) {
                                     foreach($block->getFieldValue($blockField->handle)->all() as $matrix) {
-                                        $matrixFields = $matrix->getFieldLayout()->getFields();
+                                        $matrixFields = $matrix->getFieldLayout()->getCustomFields();
 
                                         foreach ($matrixFields as $matrixField) {
                                             $value = $matrix->getFieldValue($matrixField->handle);
                                             $seconds = $this->valToSeconds($value);
-                                            $totalSeconds = $totalSeconds + $seconds;
+                                            $totalSeconds += $seconds;
                                         }
                                     }
                                 } else {
                                     $value = $block->getFieldValue($blockField->handle);
                                     $seconds = $this->valToSeconds($value);
-                                    $totalSeconds = $totalSeconds + $seconds;
+                                    $totalSeconds += $seconds;
                                 }
                             }
                         }
-                    } else {
+                    }
+                    else {
                         $value = $element->getFieldValue($field->handle);
                         $seconds = $this->valToSeconds($value);
-                        $totalSeconds = $totalSeconds + $seconds;
+                        $totalSeconds += $seconds;
                     }
                 } catch (ErrorException $e) {
                     continue;
                 }
             }
-        } elseif(is_array($element)) {
-            // Provided value is a matrix field
+        }
+        elseif (is_array($element)) {
+            // Matrix field with one or more Entry elements
             Craft::info('matrix field provided', 'readtime');
 
             foreach ($element as $block) {
-                if ($block instanceof MatrixBlock) {
-                    $blockFields = $block->getFieldLayout()->getCustomFields();
+                if ($block instanceof Entry) {
+                    $blockFields = $block->getFieldLayout()?->getCustomFields();
 
                     foreach ($blockFields as $blockField) {
                         $value = $block->getFieldValue($blockField->handle);
                         $seconds = $this->valToSeconds($value);
-                        $totalSeconds = $totalSeconds + $seconds;
+                        $totalSeconds += $seconds;
                     }
                 }
             }
@@ -132,10 +135,7 @@ class ReadTimeTwigExtension extends AbstractExtension
 	{
         $seconds = $this->valToSeconds($value);
 
-        $data = [
-            'seconds'     => $seconds,
-            'showSeconds' => $showSeconds,
-        ];
+        $data = compact('seconds', 'showSeconds');
 
         return new TimeModel($data);
     }
@@ -146,13 +146,12 @@ class ReadTimeTwigExtension extends AbstractExtension
     private function valToSeconds($value): float
 	{
 		/** @var Settings $settings */
-        $settings = ReadTime::getInstance()->getSettings();
+        $settings = ReadTime::getInstance()?->getSettings();
         $wpm = $settings->wordsPerMinute;
 
         $string = StringHelper::toString($value);
         $wordCount = StringHelper::countWords($string);
-        $seconds = floor($wordCount / $wpm * 60);
 
-        return $seconds;
+        return floor($wordCount / $wpm * 60);
     }
 }

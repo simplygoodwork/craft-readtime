@@ -1,6 +1,9 @@
+> [!NOTE]  
+> This is a fork of the [jalendport/craft-readtime](https://github.com/jalendport/craft-readtime) Craft CMS plugin, updated for Craft CMS 5 and to fix matrix fields since the entrification of Matrix Blocks to Entries
+
 <img src="src/icon.svg" alt="icon" width="100" height="100">
 
-# Read Time plugin for Craft CMS 3
+# Read Time plugin for Craft CMS 5
 
 Calculate the estimated read time for content.
 
@@ -8,7 +11,7 @@ Calculate the estimated read time for content.
 
 #### Requirements
 
-This plugin requires Craft CMS 4.0.0, or later.
+This plugin requires Craft CMS 5.0.0, or later.
 
 #### Plugin Store
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Read Time plugin for Craft CMS 4.x
+ * Read Time plugin for Craft CMS 5.x
  *
  * Calculate the estimated read time for content.
  *
@@ -30,11 +30,11 @@ class ReadTime extends Plugin
     // Public Methods
     // =========================================================================
 
-    public function init()
+    public function init(): void
     {
         parent::init();
 
-        Craft::$app->view->registerTwigExtension(new ReadTimeTwigExtension());
+        Craft::$app->getView()->registerTwigExtension(new ReadTimeTwigExtension());
 
         Craft::info(
             Craft::t(
@@ -64,7 +64,7 @@ class ReadTime extends Plugin
     {
         // Get and pre-validate the settings
         $settings = $this->getSettings();
-        $settings->validate();
+        $settings?->validate();
 
         // Get the settings that are being defined by the config file
         $overrides = Craft::$app->getConfig()->getConfigFromFile(strtolower($this->handle));

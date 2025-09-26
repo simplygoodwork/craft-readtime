@@ -1,6 +1,6 @@
 <?php
 /**
- * Read Time plugin for Craft CMS 4.x
+ * Read Time plugin for Craft CMS 5.x
  *
  * Calculate the estimated read time for content.
  *
@@ -45,9 +45,7 @@ class TimeModel extends Model
         $datetimeStart = DateTimeHelper::toDateTime($currentTimeStamp);
         $datetimeEnd = DateTimeHelper::toDateTime(DateTimeHelper::currentTimeStamp() + $this->seconds);
 
-        $interval = $datetimeStart->diff($datetimeEnd);
-
-        return $interval->format($format);
+        return $datetimeStart->diff($datetimeEnd)->format($format);
     }
 
     public function seconds(): int

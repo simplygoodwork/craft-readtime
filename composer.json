@@ -1,8 +1,8 @@
 {
-    "name": "jalendport/craft-readtime",
+    "name": "jamesmacwhite/craft-readtime",
     "description": "Calculate the estimated read time for content.",
     "type": "craft-plugin",
-    "version": "2.0.0-beta.1",
+    "version": "3.0.0",
     "keywords": [
         "craft",
         "cms",
@@ -11,8 +11,8 @@
         "average read time"
     ],
     "support": {
-        "docs": "https://github.com/jalendport/craft-readtime/blob/master/README.md",
-        "issues": "https://github.com/jalendport/craft-readtime/issues"
+        "docs": "https://github.com/jamesmacwhite/craft-readtime/blob/master/README.md",
+        "issues": "https://github.com/jamesmacwhite/craft-readtime/issues"
     },
     "license": "MIT",
     "authors": [
@@ -23,10 +23,14 @@
         {
             "name": "Luke Youell",
             "homepage": "https://github.com/lukeyouell"
+        },
+        {
+            "name": "James White",
+            "homepage": "https://www.jmwhite.co.uk"
         }
     ],
     "require": {
-        "craftcms/cms": "^4.0.0"
+        "craftcms/cms": "^5.0.0"
     },
     "autoload": {
         "psr-4": {
@@ -38,7 +42,15 @@
         "handle": "read-time",
         "hasCpSettings": true,
         "hasCpSection": false,
-        "changelogUrl": "https://raw.githubusercontent.com/jalendport/craft-readtime/master/CHANGELOG.md",
+        "changelogUrl": "https://raw.githubusercontent.com/jamesmacwhite/craft-readtime/master/CHANGELOG.md",
         "class": "jalendport\\readtime\\ReadTime"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+        ,
+        "craftcms/phpstan": "dev-main",
+        "craftcms/rector": "dev-main"
     }
 }

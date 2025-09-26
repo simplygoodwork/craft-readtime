@@ -1,5 +1,5 @@
 {
-    "name": "jamesmacwhite/craft-readtime",
+    "name": "simplygoodwork/craft-readtime",
     "description": "Calculate the estimated read time for content.",
     "type": "craft-plugin",
     "version": "3.0.0",
@@ -11,8 +11,8 @@
         "average read time"
     ],
     "support": {
-        "docs": "https://github.com/jamesmacwhite/craft-readtime/blob/master/README.md",
-        "issues": "https://github.com/jamesmacwhite/craft-readtime/issues"
+        "docs": "https://github.com/simplygoodwork/craft-readtime/blob/master/README.md",
+        "issues": "https://github.com/simplygoodwork/craft-readtime/issues"
     },
     "license": "MIT",
     "authors": [
@@ -42,7 +42,7 @@
         "handle": "read-time",
         "hasCpSettings": true,
         "hasCpSection": false,
-        "changelogUrl": "https://raw.githubusercontent.com/jamesmacwhite/craft-readtime/master/CHANGELOG.md",
+        "changelogUrl": "https://raw.githubusercontent.com/simplygoodwork/craft-readtime/master/CHANGELOG.md",
         "class": "jalendport\\readtime\\ReadTime"
     },
     "minimum-stability": "dev",
